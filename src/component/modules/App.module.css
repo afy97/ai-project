@@ -6,3 +6,9 @@
 .Container > div {
     flex: 1 0 unset;
 }
+
+@media (max-width: 1400px) {
+    .Container {
+        flex-flow: column;
+    }
+}

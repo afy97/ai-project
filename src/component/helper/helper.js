@@ -77,7 +77,7 @@ async function BFS(map, callback, options) {
         visited.add(node)
 
         if (options.iterate) {
-            await delay()
+            await delay(1)
 
             callback({ path, visited, duration: ((new Date()).getTime() - begin) / 1000 })
         }
