@@ -1,0 +1,8 @@
+.Container {
+    display: flex;
+    height: 100%;
+}
+
+.Container > div {
+    flex: 1 0 unset;
+}

@@ -1,0 +1,20 @@
+.Options {
+    padding: 1em;
+}
+
+.Options label,
+.Options input,
+.Options select,
+.Options option {
+    display: block;
+}
+
+.Options fieldset > div {
+    padding: 0.25em;
+}
+
+.Legend span {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}

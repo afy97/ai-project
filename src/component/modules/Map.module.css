@@ -1,0 +1,31 @@
+.Map {
+    flex-basis: calc(100vmin * 3/2);
+    height: 100vh;
+    cursor: crosshair;
+}
+
+.Row {
+    width: 100%;
+    display: flex;
+    border-bottom: thin solid;
+    border-color: lightgray;
+}
+
+.Row:nth-child(1) {
+    border-top: thin solid;
+}
+
+.Col {
+    flex: 1 0 auto;
+    border-right: thin solid;
+    border-color: lightgray;
+}
+
+.Col:nth-child(1) {
+    border-left: thin solid;
+}
+
+.Col > div {
+    width: 100%;
+    padding-top: 100%;
+}
