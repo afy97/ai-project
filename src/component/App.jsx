@@ -62,7 +62,7 @@ class App extends React.Component {
                 const r = parseInt(Math.random() * rows)
                 const c = parseInt(Math.random() * cols)
 
-                if (matrix[r][c] === 0) {
+                if (matrix[r][c] == 0) {
                     start = { row: r, col: c }
                     matrix[r][c] = 1 // start
                 }
@@ -72,7 +72,7 @@ class App extends React.Component {
                 const r = parseInt(Math.random() * rows)
                 const c = parseInt(Math.random() * cols)
 
-                if (matrix[r][c] === 0) {
+                if (matrix[r][c] == 0) {
                     goal = { row: r, col: c }
                     matrix[r][c] = 2 // goal
                 }
@@ -114,7 +114,9 @@ class App extends React.Component {
                 update.goal = { row: -1, col: -1 }
             }
 
-            update.matrix[row][col] = this.state.edit
+            update.matrix[row][col] = parseInt(this.state.edit)
+
+            console.log(update.matrix)
 
             this.setState({ map: update })
         }
@@ -188,7 +190,7 @@ class App extends React.Component {
                     this.setState({ iterator: true, solved: true }, () => {
                         method(this.state.map, this.updateMap, { iterate: true }).then(res => {
                             this.updateMap(res)
-                            this.setState({ iterator: false, stats: { cost: res.path.length, visited: res.visited.size, duration: res.duration } })
+                            this.setState({ iterator: false, stats: { cost: (res.path && res.path.length), visited: (res.visited && res.visited.size), duration: res.duration } })
                         })
                     })
                 } else {
@@ -200,11 +202,15 @@ class App extends React.Component {
                 
                 if (!flag) {
                     const method = this.selectMethod()
+                    const map    = JSON.parse(JSON.stringify(this.state.map))
     
                     this.setState({ solved: true }, () => {
-                        method(this.state.map, () => {}, { iterate: false }).then(res => {
+                        method(map, () => {}, { iterate: false }).then(res => {
                             this.updateMap(res)
-                            this.setState({ stats: { cost: res.path.length, visited: res.visited.size, duration: res.duration } })
+
+                            if (res.path && res.visited) {
+                                this.setState({ stats: { cost: (res.path && res.path.length), visited: (res.visited && res.visited.size), duration: res.duration } })
+                            }
                         })
                     })
                 } else {
