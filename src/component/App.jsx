@@ -116,8 +116,6 @@ class App extends React.Component {
 
             update.matrix[row][col] = parseInt(this.state.edit)
 
-            console.log(update.matrix)
-
             this.setState({ map: update })
         }
 
