@@ -46,9 +46,10 @@ class Options extends React.Component {
                         <div>
                             <select name="method" onChange={this.props.methodChange}>
                                 <option value="0">BFS</option>
-                                <option value="1">Greedy Best First</option>
-                                <option value="2">A* Euclidean</option>
-                                <option value="3">A* Manhattan</option>
+                                <option value="1">DFS</option>
+                                <option value="2">Greedy Best First</option>
+                                <option value="3">A* Euclidean</option>
+                                <option value="4">A* Manhattan</option>
                             </select>
                         </div>
                         <div>

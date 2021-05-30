@@ -153,9 +153,10 @@ class App extends React.Component {
         this.selectMethod = () => {
             switch (parseInt(this.state.method)) {
                 case 0: return helper.BFS
-                case 1: return helper.greedy
-                case 2: return helper.aStarEuclidean
-                case 3: return helper.aStarManhattan
+                case 1: return helper.DFS
+                case 2: return helper.greedy
+                case 3: return helper.aStarEuclidean
+                case 4: return helper.aStarManhattan
             }
         }
 

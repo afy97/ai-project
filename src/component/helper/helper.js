@@ -94,6 +94,54 @@ async function BFS(map, callback, options) {
     return false
 }
 
+async function DFS(map, callback, options) {
+    const graph    = matrix2graph(map.matrix)
+    const frontier = []
+    const visited  = new Set()
+    const start    = map.start.row * COLS + map.start.col
+    const goal     = map.goal.row * COLS + map.goal.col
+    const begin    = (new Date()).getTime()
+
+    let count = ((options.count == 0) ? -1 : options.count)
+
+    frontier.push([start])
+
+    while (frontier.length) {
+        if (count == 0) {
+            break
+        } else if (0 < count) {
+            count--
+        }
+
+        const path = JSON.parse(JSON.stringify(frontier.pop()))
+        const node = path[path.length - 1]
+
+        if (node == goal) {
+            return { path, visited, duration: ((new Date()).getTime() - begin) / 1000 }
+        }
+
+        if (!visited.has(node)) {
+            for (const adj of (graph[node] || [])) {
+                if (!visited.has(adj)) {
+                    const newPath = JSON.parse(JSON.stringify(path))
+                    newPath.push(adj)
+                    frontier.push(newPath)
+                }
+            }
+        }
+
+        visited.add(node)
+
+        if (options.iterate) {
+            await delay(1)
+
+            callback({ path, visited, duration: ((new Date()).getTime() - begin) / 1000 })
+        }
+    }
+
+    return false
+}
+
 function euclideanDistance(a, b) {
     const ax = a / COLS
     const ay = a % COLS
@@ -227,6 +275,7 @@ async function aStarManhattan(map, callback, options) {
 
 export default {
     BFS,
+    DFS,
     greedy,
     aStarEuclidean,
     aStarManhattan
