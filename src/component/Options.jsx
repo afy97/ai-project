@@ -5,6 +5,20 @@ import React from 'react'
 import styles from './modules/Options.module.css'
 
 class Options extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            count: 0
+        }
+
+        this.alertStyle = {
+            borderColor: "crimson",
+            backgroundColor: "red",
+            color: "white"
+        }
+    }
+
     render() {
         return (
             <div className={styles.Options}>
@@ -38,18 +52,26 @@ class Options extends React.Component {
                             </select>
                         </div>
                         <div>
+                            <button onClick={(this.props.functions || {}).solve} disabled={this.props.solved}>Solve</button>
+                            <button onClick={(this.props.functions || {}).reset} style={(this.props.iterator ? this.alertStyle : undefined)}>Reset</button>
+                        </div>
+                        <div hidden={!this.props.iterator}>
+                            <small><b>Caution:</b> the <code><b>Reset</b></code> button will resfresh the page while iterating</small>
+                        </div>
+                        <div>
+                            <input type="number" min="0" value={this.state.count} onChange={(event) => this.setState({ count: (event.target.value || 0) })} />
+                        </div>
+                        <div>
                             <button onClick={() => {
                                 if (!this.props.iterator) {
-                                    (this.props.functions || {}).iterate()
+                                    (this.props.functions || {}).iterate(this.state.count)
                                 } else {
                                     (this.props.functions || {}).stop()
                                 }
                             }} disabled={this.props.solved}>Iterate</button>
-                            <button onClick={(this.props.functions || {}).solve} disabled={this.props.solved}>Solve</button>
-                            <button onClick={(this.props.functions || {}).reset}>Reset</button>
-                            <div hidden={!this.props.iterator}>
-                                <small><b>Caution:</b> the <code><b>Reset</b></code> button will resfresh the page while iterating</small>
-                            </div>
+                        </div>
+                        <div>
+                            <small><b>Tip:</b> This parameter limits the iteration count. <code><b>0</b></code> is unlimited.</small>
                         </div>
                     </fieldset>
                     <fieldset>

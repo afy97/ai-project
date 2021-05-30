@@ -179,16 +179,16 @@ class App extends React.Component {
                     })
                 }
             },
-            iterate: () => {
+            iterate: (count = 0) => {
                 const flag = (this.state.map.start.row < 0) || (this.state.map.start.col < 0) || (this.state.map.goal.row < 0) || (this.state.map.goal.col < 0)
                 
                 if (!flag) {
                     const method = this.selectMethod()
     
                     this.setState({ iterator: true, solved: true }, () => {
-                        method(this.state.map, this.updateMap, { iterate: true }).then(res => {
+                        method(this.state.map, this.updateMap, { iterate: true, count: count }).then(res => {
                             this.updateMap(res)
-                            this.setState({ iterator: false, stats: { cost: (res.path && res.path.length), visited: (res.visited && res.visited.size), duration: res.duration } })
+                            this.setState({ iterator: false, stats: { cost: (res.path && res.path.length - 1), visited: (res.visited && res.visited.size), duration: res.duration } })
                         })
                     })
                 } else {
@@ -207,7 +207,7 @@ class App extends React.Component {
                             this.updateMap(res)
 
                             if (res.path && res.visited) {
-                                this.setState({ stats: { cost: (res.path && res.path.length), visited: (res.visited && res.visited.size), duration: res.duration } })
+                                this.setState({ stats: { cost: (res.path && res.path.length - 1), visited: (res.visited && res.visited.size), duration: res.duration } })
                             }
                         })
                     })

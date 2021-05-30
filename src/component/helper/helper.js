@@ -54,9 +54,17 @@ async function BFS(map, callback, options) {
     const goal     = map.goal.row * COLS + map.goal.col
     const begin    = (new Date()).getTime()
 
+    let count = ((options.count == 0) ? -1 : options.count)
+
     frontier.push([start])
 
     while (frontier.length) {
+        if (count == 0) {
+            break
+        } else if (0 < count) {
+            count--
+        }
+
         const path = JSON.parse(JSON.stringify(frontier.shift()))
         const node = path[path.length - 1]
         
@@ -117,9 +125,17 @@ async function greedy(map, callback, options) {
     const goal    = map.goal.row * COLS + map.goal.col
     const begin   = (new Date()).getTime()
 
+    let count = ((options.count == 0) ? -1 : options.count)
+
     queue.queue({ path: [start], remaining: euclideanDistance(start, goal) })
 
     while (queue.length) {
+        if (count == 0) {
+            break
+        } else if (0 < count) {
+            count--
+        }
+
         const next   = queue.dequeue()
         const vertex = next.path[next.path.length - 1]
 
@@ -161,9 +177,17 @@ async function aStar(map, callback, options, manhattan) {
     const begin    = (new Date()).getTime()
     const distance = manhattan ? manhattanDistance : euclideanDistance
 
+    let count = ((options.count == 0) ? -1 : options.count)
+
     queue.queue({ path: [start], g: 1, h: distance(start, goal) })
 
     while (queue.length) {
+        if (count == 0) {
+            break
+        } else if (0 < count) {
+            count--
+        }
+
         const next   = queue.dequeue()
         const vertex = next.path[next.path.length - 1]
 
