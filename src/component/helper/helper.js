@@ -81,7 +81,7 @@ async function BFS(map, callback, options) {
         const node = path[path.length - 1]
 
         if ((options.iterate) && (options.count != 0) && (options.count < (path.length - 1))) {
-            break
+            continue
         }
         
         if (node == goal) {
@@ -125,7 +125,7 @@ async function DFS(map, callback, options) {
         const node = path[path.length - 1]
 
         if ((options.iterate) && (options.count != 0) && (options.count < (path.length - 1))) {
-            break
+            continue
         }
 
         if (node == goal) {
@@ -172,7 +172,7 @@ async function greedy(map, callback, options) {
         const vertex = next.path[next.path.length - 1]
 
         if ((options.iterate) && (options.count != 0) && (options.count < (next.path.length - 1))) {
-            break
+            continue
         }
 
         if (vertex == goal) {
@@ -220,7 +220,7 @@ async function aStar(map, callback, options, manhattan) {
         const vertex = next.path[next.path.length - 1]
 
         if ((options.iterate) && (options.count != 0) && (options.count < (next.path.length - 1))) {
-            break
+            continue
         }
 
         if (vertex == goal) {
