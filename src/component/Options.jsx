@@ -72,7 +72,7 @@ class Options extends React.Component {
                             }} disabled={this.props.solved}>Iterate</button>
                         </div>
                         <div>
-                            <small><b>Tip:</b> This parameter limits the iteration count. <code><b>0</b></code> is unlimited.</small>
+                            <small><b>Tip:</b> This parameter limits the depth. <code><b>0</b></code> is unlimited.</small>
                         </div>
                     </fieldset>
                     <fieldset>

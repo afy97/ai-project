@@ -46,6 +46,26 @@ function matrix2graph(matrix) {
     return graph
 }
 
+function euclideanDistance(a, b) {
+    const ax = a / COLS
+    const ay = a % COLS
+
+    const bx = b / COLS
+    const by = b % COLS
+
+    return Math.ceil(Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2)))
+}
+
+function manhattanDistance(a, b) {
+    const ax = a / COLS
+    const ay = a % COLS
+
+    const bx = b / COLS
+    const by = b % COLS
+
+    return Math.abs(bx - ax) + Math.abs(by - ay)
+}
+
 async function BFS(map, callback, options) {
     const graph    = matrix2graph(map.matrix)
     const frontier = []
@@ -54,19 +74,15 @@ async function BFS(map, callback, options) {
     const goal     = map.goal.row * COLS + map.goal.col
     const begin    = (new Date()).getTime()
 
-    let count = ((options.count == 0) ? -1 : options.count)
-
     frontier.push([start])
 
     while (frontier.length) {
-        if (count == 0) {
-            break
-        } else if (0 < count) {
-            count--
-        }
-
         const path = JSON.parse(JSON.stringify(frontier.shift()))
         const node = path[path.length - 1]
+
+        if ((options.iterate) && (options.count != 0) && (options.count < (path.length - 1))) {
+            break
+        }
         
         if (node == goal) {
             return { path, visited, duration: ((new Date()).getTime() - begin) / 1000 }
@@ -102,19 +118,15 @@ async function DFS(map, callback, options) {
     const goal     = map.goal.row * COLS + map.goal.col
     const begin    = (new Date()).getTime()
 
-    let count = ((options.count == 0) ? -1 : options.count)
-
     frontier.push([start])
 
     while (frontier.length) {
-        if (count == 0) {
-            break
-        } else if (0 < count) {
-            count--
-        }
-
         const path = JSON.parse(JSON.stringify(frontier.pop()))
         const node = path[path.length - 1]
+
+        if ((options.iterate) && (options.count != 0) && (options.count < (path.length - 1))) {
+            break
+        }
 
         if (node == goal) {
             return { path, visited, duration: ((new Date()).getTime() - begin) / 1000 }
@@ -142,26 +154,6 @@ async function DFS(map, callback, options) {
     return false
 }
 
-function euclideanDistance(a, b) {
-    const ax = a / COLS
-    const ay = a % COLS
-
-    const bx = b / COLS
-    const by = b % COLS
-
-    return Math.ceil(Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2)))
-}
-
-function manhattanDistance(a, b) {
-    const ax = a / COLS
-    const ay = a % COLS
-
-    const bx = b / COLS
-    const by = b % COLS
-
-    return Math.abs(bx - ax) + Math.abs(by - ay)
-}
-
 async function greedy(map, callback, options) {
     const queue = new PriorityQueue({ comparator: (a, b) => {
         return -(b.remaining - a.remaining)
@@ -173,19 +165,15 @@ async function greedy(map, callback, options) {
     const goal    = map.goal.row * COLS + map.goal.col
     const begin   = (new Date()).getTime()
 
-    let count = ((options.count == 0) ? -1 : options.count)
-
     queue.queue({ path: [start], remaining: euclideanDistance(start, goal) })
 
     while (queue.length) {
-        if (count == 0) {
-            break
-        } else if (0 < count) {
-            count--
-        }
-
         const next   = queue.dequeue()
         const vertex = next.path[next.path.length - 1]
+
+        if ((options.iterate) && (options.count != 0) && (options.count < (next.path.length - 1))) {
+            break
+        }
 
         if (vertex == goal) {
             return { path: next.path, visited, duration: ((new Date()).getTime() - begin) / 1000 }
@@ -225,19 +213,15 @@ async function aStar(map, callback, options, manhattan) {
     const begin    = (new Date()).getTime()
     const distance = manhattan ? manhattanDistance : euclideanDistance
 
-    let count = ((options.count == 0) ? -1 : options.count)
-
     queue.queue({ path: [start], g: 1, h: distance(start, goal) })
 
     while (queue.length) {
-        if (count == 0) {
-            break
-        } else if (0 < count) {
-            count--
-        }
-
         const next   = queue.dequeue()
         const vertex = next.path[next.path.length - 1]
+
+        if ((options.iterate) && (options.count != 0) && (options.count < (next.path.length - 1))) {
+            break
+        }
 
         if (vertex == goal) {
             return { path: next.path, visited, duration: ((new Date()).getTime() - begin) / 1000 }
