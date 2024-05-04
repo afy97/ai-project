@@ -18,6 +18,5 @@
         "@vitejs/plugin-react": "^4.2.1",
         "gh-pages": "^6.1.1",
         "vite": "^5.2.11"
-    },
-    "homepage": "http://afy97.github.io/ai-project"
+    }
 }
